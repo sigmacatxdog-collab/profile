@@ -1,0 +1,1363 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProfileFlow — Personal Details</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#08090c;
+    --card:rgba(255,255,255,.065);
+    --input:rgba(255,255,255,.055);
+    --border:rgba(255,255,255,.12);
+    --text:#f7f7f8;
+    --muted:#92959e;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    color:var(--text);
+    font-family:Inter,Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at 12% 10%,rgba(120,120,255,.14),transparent 28%),
+        radial-gradient(circle at 88% 85%,rgba(0,220,255,.10),transparent 30%),
+        var(--bg);
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+    width:100%;
+    height:76px;
+    padding:0 5%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:sticky;
+    top:0;
+    z-index:100;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    background:rgba(8,9,12,.62);
+    backdrop-filter:blur(25px);
+}
+
+.logo{
+    font-size:21px;
+    font-weight:800;
+    letter-spacing:-.8px;
+}
+
+.logo span{
+    opacity:.4;
+}
+
+.nav-status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#72ff9c;
+    box-shadow:0 0 13px #72ff9c;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    width:min(1180px,92%);
+    margin:auto;
+    padding:70px 0 90px;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    max-width:760px;
+    margin:0 auto 55px;
+    text-align:center;
+}
+
+.badge{
+    display:inline-flex;
+    padding:8px 14px;
+    margin-bottom:20px;
+    border:1px solid var(--border);
+    border-radius:100px;
+    background:rgba(255,255,255,.045);
+    color:#c9cbd1;
+    font-size:11px;
+    letter-spacing:1px;
+}
+
+.hero h1{
+    font-size:clamp(44px,7vw,78px);
+    line-height:.98;
+    letter-spacing:-4px;
+    margin-bottom:22px;
+}
+
+.hero h1 span{
+    color:#777b86;
+}
+
+.hero p{
+    max-width:620px;
+    margin:auto;
+    color:var(--muted);
+    font-size:16px;
+    line-height:1.7;
+}
+
+/* ================= PROGRESS ================= */
+
+.progress-wrap{
+    max-width:850px;
+    margin:0 auto 35px;
+}
+
+.progress-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.progress-bar{
+    height:4px;
+    width:100%;
+    overflow:hidden;
+    border-radius:20px;
+    background:rgba(255,255,255,.08);
+}
+
+.progress-fill{
+    width:33.33%;
+    height:100%;
+    background:#fff;
+    border-radius:20px;
+    transition:.35s ease;
+}
+
+/* ================= FORM CARD ================= */
+
+.form-card{
+    max-width:850px;
+    margin:auto;
+    padding:clamp(25px,4vw,42px);
+    border:1px solid var(--border);
+    border-radius:30px;
+    background:var(--card);
+    backdrop-filter:blur(30px);
+    box-shadow:0 30px 100px rgba(0,0,0,.35);
+}
+
+.section{
+    display:none;
+    animation:sectionIn .4s ease;
+}
+
+.section.active{
+    display:block;
+}
+
+@keyframes sectionIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.section-heading{
+    margin-bottom:30px;
+}
+
+.section-heading small{
+    color:#777b86;
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+}
+
+.section-heading h2{
+    margin-top:7px;
+    font-size:30px;
+    letter-spacing:-1px;
+}
+
+.section-heading p{
+    margin-top:8px;
+    color:var(--muted);
+    font-size:14px;
+}
+
+/* ================= GRID ================= */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+label{
+    color:#b8bac1;
+    font-size:12px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:15px 16px;
+    outline:none;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:14px;
+    background:var(--input);
+    color:#fff;
+    font:inherit;
+    transition:.25s;
+}
+
+input::placeholder,
+textarea::placeholder{
+    color:#666a74;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:rgba(255,255,255,.38);
+    background:rgba(255,255,255,.08);
+    box-shadow:0 0 0 4px rgba(255,255,255,.035);
+}
+
+select option{
+    background:#111216;
+}
+
+textarea{
+    min-height:125px;
+    resize:vertical;
+}
+
+/* ================= PHOTO ================= */
+
+.photo-area{
+    display:flex;
+    align-items:center;
+    gap:22px;
+    margin-bottom:30px;
+}
+
+.photo-preview{
+    width:90px;
+    height:90px;
+    display:grid;
+    place-items:center;
+    overflow:hidden;
+    border:1px solid var(--border);
+    border-radius:50%;
+    background:rgba(255,255,255,.05);
+    color:#777b86;
+    font-size:28px;
+}
+
+.photo-preview img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.upload-btn{
+    display:inline-block;
+    padding:11px 15px;
+    cursor:pointer;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:rgba(255,255,255,.05);
+    font-size:13px;
+    transition:.25s;
+}
+
+.upload-btn:hover{
+    background:rgba(255,255,255,.1);
+}
+
+.photo-note{
+    margin-top:8px;
+    color:#777b86;
+    font-size:11px;
+}
+
+/* ================= CONSENT ================= */
+
+.consent{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin-top:24px;
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.6;
+}
+
+.consent input{
+    width:auto;
+    margin-top:3px;
+}
+
+/* ================= BUTTONS ================= */
+
+.actions{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:35px;
+}
+
+.btn{
+    padding:14px 22px;
+    border-radius:14px;
+    font:inherit;
+    font-weight:700;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.btn:active{
+    transform:translateY(0);
+}
+
+.btn-back{
+    color:#a5a7af;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.055);
+}
+
+.btn-next,
+.btn-submit{
+    color:#08090c;
+    background:#fff;
+    border:none;
+}
+
+/* ================= SUCCESS ================= */
+
+.success{
+    display:none;
+    max-width:850px;
+    margin:auto;
+    padding:60px 35px;
+    text-align:center;
+    border:1px solid var(--border);
+    border-radius:30px;
+    background:var(--card);
+    backdrop-filter:blur(30px);
+}
+
+.success-icon{
+    width:70px;
+    height:70px;
+    display:grid;
+    place-items:center;
+    margin:0 auto 22px;
+    border-radius:50%;
+    background:#fff;
+    color:#08090c;
+    font-size:30px;
+}
+
+.success h2{
+    margin-bottom:10px;
+    font-size:35px;
+}
+
+.success > p{
+    margin-bottom:30px;
+    color:var(--muted);
+}
+
+/* ================= PROFILE PREVIEW ================= */
+
+.profile-preview{
+    max-width:600px;
+    margin:30px auto 0;
+    padding:22px;
+    text-align:left;
+    border:1px solid var(--border);
+    border-radius:20px;
+    background:rgba(255,255,255,.035);
+}
+
+.profile-row{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    padding:13px 0;
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.profile-row:last-child{
+    border-bottom:none;
+}
+
+.profile-row span:first-child{
+    color:#777b86;
+}
+
+.profile-row span:last-child{
+    max-width:65%;
+    text-align:right;
+    word-break:break-word;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:650px){
+
+    .navbar{
+        padding:0 20px;
+    }
+
+    .main{
+        width:94%;
+        padding-top:45px;
+    }
+
+    .hero h1{
+        letter-spacing:-2.5px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .form-card{
+        border-radius:22px;
+    }
+
+    .photo-area{
+        align-items:flex-start;
+    }
+
+    .actions{
+        flex-direction:column-reverse;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+    .profile-row{
+        flex-direction:column;
+        gap:5px;
+    }
+
+    .profile-row span:last-child{
+        max-width:100%;
+        text-align:left;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        Profile<span>Flow</span>
+    </div>
+
+    <div class="nav-status">
+        <div class="status-dot"></div>
+        Secure Form
+    </div>
+
+</nav>
+
+
+<main class="main">
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="badge">
+        PERSONAL PROFILE
+    </div>
+
+    <h1>
+        Tell us about <span>yourself.</span>
+    </h1>
+
+    <p>
+        Complete your personal profile with your basic information,
+        contact details and address.
+    </p>
+
+</section>
+
+
+<!-- ================= PROGRESS ================= -->
+
+<div class="progress-wrap" id="progressWrap">
+
+    <div class="progress-top">
+        <span id="stepText">Step 1 of 3</span>
+        <span id="progressText">33%</span>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+</div>
+
+
+<!-- ================= FORM ================= -->
+
+<form
+    id="profileForm"
+    action="https://formspree.io/f/xdekryqd"
+    method="POST"
+>
+
+<div class="form-card">
+
+
+<!-- ================= STEP 1 ================= -->
+
+<section class="section active" data-step="1">
+
+    <div class="section-heading">
+
+        <small>01 — Identity</small>
+
+        <h2>
+            Personal information
+        </h2>
+
+        <p>
+            Start with your basic personal details.
+        </p>
+
+    </div>
+
+
+    <!-- PHOTO -->
+
+    <div class="photo-area">
+
+        <div class="photo-preview" id="photoPreview">
+            +
+        </div>
+
+        <div>
+
+            <label class="upload-btn">
+
+                Upload profile photo
+
+                <input
+                    type="file"
+                    id="photo"
+                    name="Profile Photo"
+                    accept="image/*"
+                    hidden
+                >
+
+            </label>
+
+            <div class="photo-note">
+                JPG or PNG
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="grid">
+
+
+        <!-- NAME -->
+
+        <div class="field">
+
+            <label>
+                Full Name *
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                name="Full Name"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                required
+            >
+
+        </div>
+
+
+        <!-- DOB -->
+
+        <div class="field">
+
+            <label>
+                Date of Birth *
+            </label>
+
+            <input
+                type="date"
+                id="dob"
+                name="Date of Birth"
+                required
+            >
+
+        </div>
+
+
+        <!-- EMAIL -->
+
+        <div class="field">
+
+            <label>
+                Email Address *
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                name="Email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+            >
+
+        </div>
+
+
+        <!-- PHONE -->
+
+        <div class="field">
+
+            <label>
+                Phone Number
+            </label>
+
+            <input
+                type="tel"
+                id="phone"
+                name="Phone Number"
+                placeholder="+91 98765 43210"
+                autocomplete="tel"
+            >
+
+        </div>
+
+
+        <!-- GENDER -->
+
+        <div class="field">
+
+            <label>
+                Gender
+            </label>
+
+            <select
+                id="gender"
+                name="Gender"
+            >
+
+                <option value="">
+                    Select gender
+                </option>
+
+                <option value="Male">
+                    Male
+                </option>
+
+                <option value="Female">
+                    Female
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+                <option value="Prefer not to say">
+                    Prefer not to say
+                </option>
+
+            </select>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="actions">
+
+        <div></div>
+
+        <button
+            type="button"
+            class="btn btn-next"
+            onclick="nextStep()"
+        >
+            Continue →
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= STEP 2 ================= -->
+
+<section class="section" data-step="2">
+
+    <div class="section-heading">
+
+        <small>02 — Location</small>
+
+        <h2>
+            Address details
+        </h2>
+
+        <p>
+            Add your current address information.
+        </p>
+
+    </div>
+
+
+    <div class="grid">
+
+
+        <!-- ADDRESS -->
+
+        <div class="field full">
+
+            <label>
+                Street / House Address *
+            </label>
+
+            <input
+                type="text"
+                id="address"
+                name="Street / House Address"
+                placeholder="House number, street name"
+                autocomplete="street-address"
+                required
+            >
+
+        </div>
+
+
+        <!-- CITY -->
+
+        <div class="field">
+
+            <label>
+                City *
+            </label>
+
+            <input
+                type="text"
+                id="city"
+                name="City"
+                placeholder="Your city"
+                autocomplete="address-level2"
+                required
+            >
+
+        </div>
+
+
+        <!-- STATE -->
+
+        <div class="field">
+
+            <label>
+                State *
+            </label>
+
+            <input
+                type="text"
+                id="state"
+                name="State"
+                placeholder="Your state"
+                autocomplete="address-level1"
+                required
+            >
+
+        </div>
+
+
+        <!-- PIN -->
+
+        <div class="field">
+
+            <label>
+                PIN / ZIP Code *
+            </label>
+
+            <input
+                type="text"
+                id="zip"
+                name="PIN / ZIP Code"
+                placeholder="110001"
+                autocomplete="postal-code"
+                required
+            >
+
+        </div>
+
+
+        <!-- COUNTRY -->
+
+        <div class="field">
+
+            <label>
+                Country *
+            </label>
+
+            <select
+                id="country"
+                name="Country"
+                autocomplete="country-name"
+                required
+            >
+
+                <option value="">
+                    Select country
+                </option>
+
+                <option value="India">
+                    India
+                </option>
+
+                <option value="United States">
+                    United States
+                </option>
+
+                <option value="United Kingdom">
+                    United Kingdom
+                </option>
+
+                <option value="Canada">
+                    Canada
+                </option>
+
+                <option value="Australia">
+                    Australia
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            type="button"
+            class="btn btn-back"
+            onclick="prevStep()"
+        >
+            ← Back
+        </button>
+
+        <button
+            type="button"
+            class="btn btn-next"
+            onclick="nextStep()"
+        >
+            Continue →
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= STEP 3 ================= -->
+
+<section class="section" data-step="3">
+
+    <div class="section-heading">
+
+        <small>03 — More about you</small>
+
+        <h2>
+            Additional details
+        </h2>
+
+        <p>
+            These details are optional.
+        </p>
+
+    </div>
+
+
+    <div class="grid">
+
+
+        <!-- OCCUPATION -->
+
+        <div class="field">
+
+            <label>
+                Occupation
+            </label>
+
+            <input
+                type="text"
+                id="occupation"
+                name="Occupation"
+                placeholder="Student, Developer..."
+            >
+
+        </div>
+
+
+        <!-- WEBSITE -->
+
+        <div class="field">
+
+            <label>
+                Website
+            </label>
+
+            <input
+                type="url"
+                id="website"
+                name="Website"
+                placeholder="https://example.com"
+            >
+
+        </div>
+
+
+        <!-- ABOUT -->
+
+        <div class="field full">
+
+            <label>
+                About Yourself
+            </label>
+
+            <textarea
+                id="about"
+                name="About Yourself"
+                placeholder="Write something about yourself..."
+            ></textarea>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- CONSENT -->
+
+    <label class="consent">
+
+        <input
+            type="checkbox"
+            id="consent"
+            name="Consent"
+            value="I confirm the information provided is accurate"
+            required
+        >
+
+        <span>
+            I confirm that the information provided by me is
+            accurate and I agree to the processing of these
+            details for the intended purpose.
+        </span>
+
+    </label>
+
+
+    <div class="actions">
+
+        <button
+            type="button"
+            class="btn btn-back"
+            onclick="prevStep()"
+        >
+            ← Back
+        </button>
+
+        <button
+            type="submit"
+            class="btn btn-submit"
+        >
+            Submit Profile ✓
+        </button>
+
+    </div>
+
+</section>
+
+
+</div>
+
+</form>
+
+
+<!-- ================= SUCCESS PREVIEW ================= -->
+
+<section class="success" id="success">
+
+    <div class="success-icon">
+        ✓
+    </div>
+
+    <h2>
+        Profile completed.
+    </h2>
+
+    <p>
+        Your details have been submitted successfully.
+    </p>
+
+
+    <div class="profile-preview">
+
+        <div class="profile-row">
+
+            <span>
+                Name
+            </span>
+
+            <span id="previewName">
+                —
+            </span>
+
+        </div>
+
+
+        <div class="profile-row">
+
+            <span>
+                Email
+            </span>
+
+            <span id="previewEmail">
+                —
+            </span>
+
+        </div>
+
+
+        <div class="profile-row">
+
+            <span>
+                Date of Birth
+            </span>
+
+            <span id="previewDob">
+                —
+            </span>
+
+        </div>
+
+
+        <div class="profile-row">
+
+            <span>
+                Phone
+            </span>
+
+            <span id="previewPhone">
+                —
+            </span>
+
+        </div>
+
+
+        <div class="profile-row">
+
+            <span>
+                Address
+            </span>
+
+            <span id="previewAddress">
+                —
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<script>
+
+/* ================= STEP SYSTEM ================= */
+
+let currentStep = 1;
+
+const totalSteps = 3;
+
+const sections =
+    document.querySelectorAll(".section");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+const stepText =
+    document.getElementById("stepText");
+
+const progressText =
+    document.getElementById("progressText");
+
+
+function showStep(step){
+
+    sections.forEach(section => {
+
+        section.classList.remove("active");
+
+        if(Number(section.dataset.step) === step){
+
+            section.classList.add("active");
+
+        }
+
+    });
+
+
+    const percentage =
+        Math.round((step / totalSteps) * 100);
+
+
+    progressFill.style.width =
+        percentage + "%";
+
+    stepText.textContent =
+        `Step ${step} of ${totalSteps}`;
+
+    progressText.textContent =
+        percentage + "%";
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* ================= VALIDATION ================= */
+
+function validateCurrentStep(){
+
+    const currentSection =
+        document.querySelector(
+            `.section[data-step="${currentStep}"]`
+        );
+
+    const requiredFields =
+        currentSection.querySelectorAll("[required]");
+
+
+    for(const field of requiredFields){
+
+        if(!field.checkValidity()){
+
+            field.reportValidity();
+
+            return false;
+
+        }
+
+    }
+
+    return true;
+
+}
+
+
+/* ================= NEXT ================= */
+
+function nextStep(){
+
+    if(!validateCurrentStep()){
+
+        return;
+
+    }
+
+
+    if(currentStep < totalSteps){
+
+        currentStep++;
+
+        showStep(currentStep);
+
+    }
+
+}
+
+
+/* ================= BACK ================= */
+
+function prevStep(){
+
+    if(currentStep > 1){
+
+        currentStep--;
+
+        showStep(currentStep);
+
+    }
+
+}
+
+
+/* ================= PHOTO PREVIEW ================= */
+
+const photoInput =
+    document.getElementById("photo");
+
+const photoPreview =
+    document.getElementById("photoPreview");
+
+
+photoInput.addEventListener("change",function(){
+
+    const file = this.files[0];
+
+    if(!file){
+
+        return;
+
+    }
+
+
+    if(!file.type.startsWith("image/")){
+
+        alert("Please select an image file.");
+
+        this.value = "";
+
+        return;
+
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function(event){
+
+            photoPreview.innerHTML =
+                `<img src="${event.target.result}" alt="Profile photo">`;
+
+        };
+
+
+    reader.readAsDataURL(file);
+
+});
+
+
+/* ================= FORM SUBMIT ================= */
+
+const form =
+    document.getElementById("profileForm");
+
+
+form.addEventListener("submit",function(event){
+
+    /*
+       IMPORTANT:
+
+       Do NOT use preventDefault() here.
+
+       The form will naturally POST
+       the information to Formspree.
+    */
+
+    if(!validateCurrentStep()){
+
+        event.preventDefault();
+
+        return;
+
+    }
+
+});
+
+
+/* ================= INITIAL STATE ================= */
+
+showStep(1);
+
+</script>
+
+</body>
+</html>
+```
